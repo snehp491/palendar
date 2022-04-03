@@ -9,11 +9,41 @@ setInterval(() => {
 // create time slots
 
 var timeSlotsElement = document.getElementById('timeSlots');
-var currentHour = new Date().getHours() % 12;
+var currentHour = new Date().getHours();
 
-for  (var i = 0; i < 9; i++) {
-    const timeSlot = document.createElement('p');
+for  (var i = 9; i < 18; i++) {
+    const timeSlot = document.createElement('div');
+    timeSlot.className = 'row time-block d-flex justify-content-between';
     timeSlotsElement.appendChild(timeSlot);
+
+    const hour = document.createElement('div');
+    hour.className = 'hour';
+
+    if (i < 12) {
+        hour.innerHTML = i + ' AM';
+    } else if (i === 12) {
+        hour.innerHTML = i  + ' PM';
+    } else {
+        hour.innerHTML = i % 12 + ' PM';
+    }
+
+    const content = document.createElement('div');
+    content.className = 'description';
+
+    if (currentHour < i) {
+        content.className = 'description past flex-fill';
+    } else if (currentHour === i) {
+        content.className = 'description present flex-fill';
+    } else {
+        content.className = 'description future flex-fill';
+    }
+
+    const save = document.createElement('button');
+    save.className = 'saveBtn';
+
+    timeSlot.appendChild(hour);
+    timeSlot.appendChild(content);
+    timeSlot.appendChild(save);
 }
 
 
