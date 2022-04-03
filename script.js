@@ -30,10 +30,11 @@ for  (var i = 9; i < 18; i++) {
         hour.innerHTML = i % 12 + ' PM';
     }
 
-    const content = document.createElement('div');
+    const content = document.createElement('textarea');
     content.className = 'description';
+    content.id = i;
 
-    if (currentHour < i) {
+    if (i < currentHour) {
         content.className = 'description past flex-fill';
     } else if (currentHour === i) {
         content.className = 'description present flex-fill';
