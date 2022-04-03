@@ -12,7 +12,8 @@ var timeSlotsElement = document.getElementById('timeSlots');
 var currentHour = new Date().getHours();
 var currentMinute = new Date().getMinutes();
 
-console.log(currentHour + ', ' + currentMinute);
+
+// for each hour between 9 and 5 pm, create 
 for  (var i = 9; i < 18; i++) {
     const timeSlot = document.createElement('div');
     timeSlot.className = 'row time-block d-flex justify-content-between';
@@ -42,6 +43,9 @@ for  (var i = 9; i < 18; i++) {
 
     const save = document.createElement('button');
     save.className = 'saveBtn';
+    const fontAwesomeIcon = document.createElement('i');
+    fontAwesomeIcon.className = 'fa fa-save';
+    save.appendChild(fontAwesomeIcon);
 
     timeSlot.appendChild(hour);
     timeSlot.appendChild(content);
