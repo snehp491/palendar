@@ -10,7 +10,9 @@ setInterval(() => {
 
 var timeSlotsElement = document.getElementById('timeSlots');
 var currentHour = new Date().getHours();
+var currentMinute = new Date().getMinutes();
 
+console.log(currentHour + ', ' + currentMinute);
 for  (var i = 9; i < 18; i++) {
     const timeSlot = document.createElement('div');
     timeSlot.className = 'row time-block d-flex justify-content-between';
@@ -46,7 +48,7 @@ for  (var i = 9; i < 18; i++) {
     timeSlot.appendChild(save);
 }
 
-
+// Update the current date time element when called
 function setTime() {
     var currentDayElement = document.getElementById('currentDay');
 
