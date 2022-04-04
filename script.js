@@ -32,7 +32,11 @@ for  (var i = 9; i < 18; i++) {
 
     const content = document.createElement('textarea');
     content.className = 'description';
-    content.id = i;
+    content.id = 'textarea-' + i;
+
+    if (window.localStorage.getItem(i)) {
+        content.value = window.localStorage.getItem(i);
+    }
 
     if (i < currentHour) {
         content.className = 'description past flex-fill';
@@ -44,6 +48,10 @@ for  (var i = 9; i < 18; i++) {
 
     const save = document.createElement('button');
     save.className = 'saveBtn';
+    save.id = i;
+
+    save.addEventListener('click', this.saveEvent);
+
     const fontAwesomeIcon = document.createElement('i');
     fontAwesomeIcon.className = 'fa fa-save';
     save.appendChild(fontAwesomeIcon);
@@ -63,4 +71,11 @@ function setTime() {
 
     currentDayElement.innerText = time + ' on ' +  date;
 
+}
+
+// save the item
+function saveEvent(event) {
+    const content = document.getElementById('textarea-' + event.currentTarget.id).value;
+
+    window.localStorage.setItem(event.currentTarget.id, content);
 }
