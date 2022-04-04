@@ -8,74 +8,80 @@ setInterval(() => {
 
 // create time slots
 
-var timeSlotsElement = document.getElementById('timeSlots');
+var timeSlotsElement = $('#timeSlots');
 var currentHour = new Date().getHours();
 var currentMinute = new Date().getMinutes();
 
-
 // for each hour between 9 and 5 pm, create 
 for  (var i = 9; i < 18; i++) {
-    const timeSlot = document.createElement('div');
-    timeSlot.className = 'row time-block d-flex justify-content-between';
-    timeSlotsElement.appendChild(timeSlot);
-
-    const hour = document.createElement('div');
-    hour.className = 'hour';
-
+    // Create the time slot element
+    const timeSlot = $('<div></div>');
+    timeSlot.addClass('row time-block d-flex justify-content-between');
+    
+    // prepare the text to go inside of the time slot element
+    let time = '';
     if (i < 12) {
-        hour.innerHTML = i + ' AM';
+        time = i + ' AM';
     } else if (i === 12) {
-        hour.innerHTML = i  + ' PM';
+        time = i  + ' PM';
     } else {
-        hour.innerHTML = i % 12 + ' PM';
+        time = i % 12 + ' PM';
     }
 
-    const content = document.createElement('textarea');
-    content.className = 'description';
-    content.id = 'textarea-' + i;
+    // add the time text and apply the proper class
+    const hour = $('<div></div>').text(time).addClass('hour');
+    
+    // create the textarea element and add existing content to it
+    const content = $('<textarea></textarea>').addClass('description');
+    content.attr('id', 'textarea-' + i);
 
     if (window.localStorage.getItem(i)) {
-        content.value = window.localStorage.getItem(i);
+        content.val(window.localStorage.getItem(i));
     }
 
+    // prepare the class name for the description text based on the time vs current time
+    let className = '';
     if (i < currentHour) {
-        content.className = 'description past flex-fill';
+        className = 'description past flex-fill';
     } else if (currentHour === i) {
-        content.className = 'description present flex-fill';
+        className = 'description present flex-fill';
     } else {
-        content.className = 'description future flex-fill';
+        className = 'description future flex-fill';
     }
 
-    const save = document.createElement('button');
-    save.className = 'saveBtn';
-    save.id = i;
+    content.addClass(className);
+    
+    // create the save button with style, font awesome icon and event listener
+    const save = $('<button></button>');
+    save.addClass('saveBtn');
+    save.attr('id', i);
 
-    save.addEventListener('click', this.saveEvent);
+    save.on('click', this.saveEvent);
 
-    const fontAwesomeIcon = document.createElement('i');
-    fontAwesomeIcon.className = 'fa fa-save';
-    save.appendChild(fontAwesomeIcon);
+    const fontAwesomeIcon = $('<i></i>');
+    fontAwesomeIcon.addClass('fa fa-save');
 
-    timeSlot.appendChild(hour);
-    timeSlot.appendChild(content);
-    timeSlot.appendChild(save);
+    // append everything to the proepr parent element
+    save.append(fontAwesomeIcon);
+
+    timeSlot.append(hour);
+    timeSlot.append(content);
+    timeSlot.append(save);
+
+    timeSlotsElement.append(timeSlot);
+
 }
 
 // Update the current date time element when called
 function setTime() {
-    var currentDayElement = document.getElementById('currentDay');
-
     var now = moment();
     const date = now.format('dddd, MMMM Do YYYY');
     const time = now.format('h:mm a');
 
-    currentDayElement.innerText = time + ' on ' +  date;
-
+    $('#currentDay').text(time + ' on ' + date);
 }
 
 // save the item
-function saveEvent(event) {
-    const content = document.getElementById('textarea-' + event.currentTarget.id).value;
-
-    window.localStorage.setItem(event.currentTarget.id, content);
+function saveEvent(event) {    
+    window.localStorage.setItem(event.currentTarget.id, $('#textarea-' + event.currentTarget.id).val());
 }
