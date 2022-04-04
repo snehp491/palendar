@@ -1,11 +1,3 @@
-// create current date time
-setTime();
-
-// continue to update date time while user is on page
-setInterval(() => {
-    setTime();
-}, 1000);
-
 // create time slots
 
 var timeSlotsElement = $('#timeSlots');
@@ -39,18 +31,6 @@ for  (var i = 9; i < 18; i++) {
         content.val(window.localStorage.getItem(i));
     }
 
-    // prepare the class name for the description text based on the time vs current time
-    let className = '';
-    if (i < currentHour) {
-        className = 'description past flex-fill';
-    } else if (currentHour === i) {
-        className = 'description present flex-fill';
-    } else {
-        className = 'description future flex-fill';
-    }
-
-    content.addClass(className);
-    
     // create the save button with style, font awesome icon and event listener
     const save = $('<button></button>');
     save.addClass('saveBtn');
@@ -72,6 +52,14 @@ for  (var i = 9; i < 18; i++) {
 
 }
 
+// create current date time
+setTime();
+
+// continue to update date time while user is on page
+setInterval(() => {
+    setTime();
+}, 1000);
+
 // Update the current date time element when called
 function setTime() {
     var now = moment();
@@ -79,6 +67,23 @@ function setTime() {
     const time = now.format('h:mm a');
 
     $('#currentDay').text(time + ' on ' + date);
+
+    var currentHour = new Date().getHours();
+    for  (var i = 9; i < 18; i++) {
+        const content = $('#textarea-' + i);
+
+        let className = '';
+        if (i < currentHour) {
+            className = 'description past flex-fill';
+        } else if (currentHour === i) {
+            className = 'description present flex-fill';
+        } else {
+            className = 'description future flex-fill';
+        }    
+
+        content.removeClass();
+        content.addClass(className);
+    }
 }
 
 // save the item
